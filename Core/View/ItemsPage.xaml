@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Diary.Core.View.ItemsPage"
+             Title="{Binding Title}"
+             xmlns:model="clr-namespace:Diary.Core.Model"
+             xmlns:viewmodel="clr-namespace:Diary.Core.ViewModel"
+             x:DataType="viewmodel:ItemsPageViewModel">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{Binding Switcher}" Command="{Binding SwitchCommand}" />
+        <ToolbarItem Text="💠" Command="{Binding AddCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <RefreshView Padding="2,2,2,2" Margin="2,2,2,2" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <CollectionView x:Name="ItemsListView"
+            ItemsSource="{Binding Items}"
+            SelectionMode="None"
+            HorizontalOptions="FillAndExpand">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <ContentView>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Frame Grid.Row="0" x:DataType="model:DiaryClass">
+                                <StackLayout x:DataType="model:DiaryClass">
+                                    <Label Text="{Binding Type}"></Label>
+                                    <Label Text="{Binding Name}"></Label>
+                                    <Label Text="{Binding SaveDate}"></Label>
+                                    <StackLayout Orientation="Horizontal" Spacing="5">
+                                        <Label Text="период дней:"></Label>
+                                        <Label Text="{Binding Period}"></Label>
+                                    </StackLayout>
+                                    <Label Text="{Binding Descripton}"></Label>
+                                </StackLayout>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                NumberOfTapsRequired="2"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ItemsPageViewModel}}, Path=ItemTapped}"		
+                                CommandParameter="{Binding .}">
+                                    </TapGestureRecognizer>
+                                </Frame.GestureRecognizers>
+                            </Frame>
+                        </Grid>
+                    </ContentView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
+</ContentPage>
