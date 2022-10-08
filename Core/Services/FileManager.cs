@@ -6,12 +6,12 @@ namespace Diary.Core.Servises
 
         public static string AppPath()
         {
-            return FileSystem.Current.AppDataDirectory;
+            return @"/storage/emulated/0/Diary/"; ;
         }
 
         public static string AppPath(string _file)
         {
-            return Path.Combine(FileSystem.Current.AppDataDirectory, _file);
+            return Path.Combine(AppPath(), _file);
         }
 
     }

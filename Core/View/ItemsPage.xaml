@@ -8,45 +8,55 @@
              x:DataType="viewmodel:ItemsPageViewModel">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{Binding Switcher}" Command="{Binding SwitchCommand}" />
-        <ToolbarItem Text="💠" Command="{Binding AddCommand}" />
+        <ToolbarItem Text="🔎" Command="{Binding SearchCommand}" />
+        <ToolbarItem Text="{Binding ItemsSwitcher}" Command="{Binding ItemsSwitchCommand}" />
+        <ToolbarItem Text="{Binding TapSwitcher}" Command="{Binding TapSwitchCommand}" />
+        <ToolbarItem Text="(+)" Command="{Binding AddCommand}" />
     </ContentPage.ToolbarItems>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
 
-    <RefreshView Padding="2,2,2,2" Margin="2,2,2,2" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-        <CollectionView x:Name="ItemsListView"
+        <RefreshView Grid.Row="1" Padding="2,2,2,2" Margin="2,2,2,2" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+            <CollectionView x:Name="ItemsListView"
             ItemsSource="{Binding Items}"
             SelectionMode="None"
             HorizontalOptions="FillAndExpand">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <ContentView>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <Frame Grid.Row="0" x:DataType="model:DiaryClass">
-                                <StackLayout x:DataType="model:DiaryClass">
-                                    <Label Text="{Binding Type}"></Label>
-                                    <Label Text="{Binding Name}"></Label>
-                                    <Label Text="{Binding SaveDate}"></Label>
-                                    <StackLayout Orientation="Horizontal" Spacing="5">
-                                        <Label Text="период дней:"></Label>
-                                        <Label Text="{Binding Period}"></Label>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <ContentView>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Frame Grid.Row="0" x:DataType="model:DiaryClass">
+                                    <StackLayout x:DataType="model:DiaryClass">
+                                        <Label FontSize="18" TextColor="{StaticResource Black}" Text="{Binding Name}"></Label>
+                                        <Label TextColor="{StaticResource Gray600}" Text="{Binding Type}"></Label>
+                                        <Label Text="{Binding SaveDateToShow}"></Label>
+                                        <StackLayout Orientation="Horizontal" Spacing="5" IsVisible="{Binding ProgressEnable}">
+                                            <Label Text="{Binding DayPath}"></Label>
+                                            <Label Text="| период дней:"></Label>
+                                            <Label Text="{Binding Period}"></Label>
+                                        </StackLayout>
+                                        <Label Text="{Binding Descripton}"></Label>
+                                        <ProgressBar IsVisible="{Binding ProgressEnable}" MinimumHeightRequest="20" Progress="{Binding Progress}" Grid.Row="0"></ProgressBar>
                                     </StackLayout>
-                                    <Label Text="{Binding Descripton}"></Label>
-                                </StackLayout>
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer 
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer 
                                 NumberOfTapsRequired="2"
                                 Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ItemsPageViewModel}}, Path=ItemTapped}"		
                                 CommandParameter="{Binding .}">
-                                    </TapGestureRecognizer>
-                                </Frame.GestureRecognizers>
-                            </Frame>
-                        </Grid>
-                    </ContentView>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </RefreshView>
+                                        </TapGestureRecognizer>
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            </Grid>
+                        </ContentView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
 </ContentPage>

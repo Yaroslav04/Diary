@@ -37,11 +37,28 @@ public partial class App : Application
             return new List<string>
             {
                 "Здоровье",
+                "Медикаменты",
                 "Еда",
                 "Спорт",
                 "Работа",
                 "Финансы",
                 "Ментальность",
+            };
+        }
+    }
+
+    public static List<string> DayPaths
+    {
+        get
+        {
+            return new List<string>
+            {
+                /*0*/"Весь день",
+                /*1*/"Утро",
+                /*2*/"Обед",
+                /*3*/"Вечер",
+                /*4*/"До обеда",
+                /*5*/"После обеда",
             };
         }
     }

@@ -55,14 +55,19 @@ namespace Cerebrum.Core.Servises
             return await objectDataBase.Table<DiaryClass>().ToListAsync();
         }
 
-        public async Task<List<DiaryClass>> GetObjectsFromTypeAsync(string _type)
+        public async Task<List<DiaryClass>> GetObjectsAsync(string _type)
         {
             return await objectDataBase.Table<DiaryClass>().Where(x => x.Type == _type).ToListAsync();
         }
 
-        public async Task<DiaryClass> GetLastObjectsFromTypeAndNameAsync(string _type, string _name)
+        public async Task<List<DiaryClass>> GetObjectsAsync(string _type, string _name)
         {
-            return await objectDataBase.Table<DiaryClass>().Where(x => x.Type == _type & x.Name == _name).OrderByDescending(x => x.SaveDate).FirstOrDefaultAsync();
+            return await objectDataBase.Table<DiaryClass>().Where(x => x.Type == _type & x.Name == _name).OrderByDescending(x => x.SaveDate).ToListAsync();
+        }
+
+        public async Task<DiaryClass> GetLastObjectsAsync(string _type, string _name, string _dayPath)
+        {
+            return await objectDataBase.Table<DiaryClass>().Where(x => x.Type == _type & x.Name == _name & x.DayPath == _dayPath).OrderByDescending(x => x.SaveDate).FirstOrDefaultAsync();
         }
 
         public async Task<DiaryClass> GetObjectAsync(int _id)
